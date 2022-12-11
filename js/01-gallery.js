@@ -6,6 +6,7 @@ const gelleryBox = document.querySelector(".gallery");
 const galleryMarkup = createMarkupGallery(galleryItems);
 
 gelleryBox.insertAdjacentHTML("beforeend", galleryMarkup);
+let instance; // оголошую змінну для створення Lightbox
 
 // додаємо слухачів
 gelleryBox.addEventListener("click", onGalleryItemClick);
@@ -32,7 +33,6 @@ function createMarkupGallery(array) {
 
 function onGalleryItemClick(evt) {
 	evt.preventDefault();
-	window.addEventListener("keydown", onEscPress); // вішаємо прослуховування з клавіатури при відкритій модалці
 	const isGalleryBox = evt.target.classList.contains("gallery__image");
 	if (!isGalleryBox) return;
 	const urlItemGallery = evt.target.dataset.source;
@@ -40,13 +40,21 @@ function onGalleryItemClick(evt) {
 	showOriginPicture(urlItemGallery);
 }
 
-let outerIstance; // оголошую зовнішє посилання на створений у функції Lightbox
-
 function showOriginPicture(url) {
-	const instance = basicLightbox.create(`
+	instance = basicLightbox.create(
+		`
     <img src="${url}" width="800" height="600">
-`);
-	outerIstance = instance;
+`,
+		{
+			onShow: instance => {
+				window.addEventListener("keydown", onEscPress);
+			},
+			onClose: instance => {
+				window.removeEventListener("keydown", onEscPress);
+			},
+		},
+	);
+
 	instance.show();
 }
 
@@ -56,7 +64,7 @@ function onEscPress(event) {
 	const ESC_KEY_CODE = "Escape";
 
 	if (event.code === ESC_KEY_CODE) {
-		outerIstance.close();
-		window.removeEventListener("keydown", onEscPress); // знімаємо прослуховування з клавіатури при закриванні модалки
+		instance.close();
+		return;
 	}
 }
