@@ -10,6 +10,10 @@ gelleryBox.insertAdjacentHTML("beforeend", galleryMarkup);
 // додаємо слухачів
 gelleryBox.addEventListener("click", onGalleryItemClick);
 
+// створення lightbox
+
+const lightbox = new SimpleLightbox(".gallery a", { captionDelay: 250 });
+
 // сет функцій
 
 function createMarkupGallery(array) {
@@ -24,11 +28,9 @@ function createMarkupGallery(array) {
 }
 
 function onGalleryItemClick(evt) {
-	evt.preventDefault();
+	// evt.preventDefault();
 	const isGalleryBox = evt.target.classList.contains("gallery__image");
 	if (!isGalleryBox) return;
 
-	const lightbox = new SimpleLightbox(".gallery a", { captionDelay: 250 });
-
-	// lightbox.show();
+	// lightbox.open();
 }

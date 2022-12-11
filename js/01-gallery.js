@@ -57,6 +57,6 @@ function onEscPress(event) {
 
 	if (event.code === ESC_KEY_CODE) {
 		outerIstance.close();
+		window.removeEventListener("keydown", onEscPress); // знімаємо прослуховування з клавіатури при закриванні модалки
 	}
-	window.removeEventListener("keydown", onEscPress); // знімаємо прослуховування з клавіатури при закриванні модалки
 }
