@@ -7,9 +7,6 @@ const galleryMarkup = createMarkupGallery(galleryItems);
 
 gelleryBox.insertAdjacentHTML("beforeend", galleryMarkup);
 
-// додаємо слухачів
-gelleryBox.addEventListener("click", onGalleryItemClick);
-
 // створення lightbox
 
 const lightbox = new SimpleLightbox(".gallery a", { captionDelay: 250 });
@@ -25,12 +22,4 @@ function createMarkupGallery(array) {
 			return markupItemGallery;
 		})
 		.join("");
-}
-
-function onGalleryItemClick(evt) {
-	// evt.preventDefault();
-	const isGalleryBox = evt.target.classList.contains("gallery__image");
-	if (!isGalleryBox) return;
-
-	// lightbox.open();
 }
